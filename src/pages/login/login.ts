@@ -33,21 +33,21 @@ export class LoginPage {
     })
   }
 
+  // loginWithGoogle() {
+  //   this.auth.signInWithGoogle()
+  //     .then(
+  //       () => this.navCtrl.setRoot(MainPage),
+  //       error => {
+  //         let toast = this.toastCtrl.create({
+  //           message: error.message,
+  //           duration: 3000,
+  //           position: 'bottom'
+  //         });
+  //         toast.present();
+  //       }
+  //     );
+  // }
 
-  loginWithGoogle() {
-    this.auth.signInWithGoogle()
-      .then(
-        () => this.navCtrl.setRoot(MainPage),
-        error => {
-          let toast = this.toastCtrl.create({
-            message: error.message,
-            duration: 3000,
-            position: 'bottom'
-          });
-          toast.present();
-        }
-      );
-  }
   // Attempt to login in through our User service
   doLogin() {
     this.auth.signInWithEmail(this.account)
