@@ -1,6 +1,7 @@
 import 'rxjs/add/operator/toPromise';
 
 import { Injectable } from '@angular/core';
+import { User } from '../../models/user'
 
 import { Api } from '../api/api';
 
@@ -24,7 +25,7 @@ import { Api } from '../api/api';
  * If the `status` field is not `success`, then an error is detected and returned.
  */
 @Injectable()
-export class User {
+export class UserService {
   _user: any;
 
   constructor(public api: Api) { }
@@ -37,6 +38,7 @@ export class User {
     let seq = this.api.post('login', accountInfo).share();
 
     seq.subscribe((res: any) => {
+      this._loggedIn(res);
       // If the API returned a successful response, mark the user as logged in
       if (res.status == 'success') {
         this._loggedIn(res);
@@ -54,23 +56,44 @@ export class User {
    * the user entered on the form.
    */
   signup(accountInfo: any) {
-    let seq = this.api.post('signup', accountInfo).share();
 
-    seq.subscribe((res: any) => {
-      // If the API returned a successful response, mark the user as logged in
-      if (res.status == 'success') {
-        this._loggedIn(res);
-      }
-    }, err => {
-      console.error('ERROR', err);
-    });
-
-    return seq;
+    let _current_user = new User(accountInfo);
+    localStorage.setItem('current_user', JSON.stringify(_current_user));
+    // let seq = this.api.post('signup', accountInfo).share();
+    //
+    // seq.subscribe((res: any) => {
+    //   // If the API returned a successful response, mark the user as logged in
+    //   if (res.status == 'success') {
+    //     this._loggedIn(res);
+    //   }
+    // }, err => {
+    //   console.error('ERROR', err);
+    // });
+    //
+    // return seq;
   }
 
-  /**
-   * Log the user out, which forgets the session
-   */
+  currentUser(){
+    if(localStorage.getItem('current_user')){
+        return JSON.parse(localStorage.getItem('current_user'))
+    }
+    else{
+      return undefined
+    }
+  }
+
+  setCurrentUser(user){
+    localStorage.setItem('current_user',JSON.stringify(user))
+  }
+
+  setTreeToUser(tree){
+    if(localStorage.getItem('current_user')){
+        let _user = JSON.parse(localStorage.getItem('current_user'))
+        _user.family_tree = tree
+        localStorage.setItem('current_user',JSON.stringify(_user))
+    }
+  }
+
   logout() {
     this._user = null;
   }

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { IonicPage, NavController, ToastController } from 'ionic-angular';
 
-import { User } from '../../providers';
+import { UserService, AuthService } from '../../providers';
 import { MainPage } from '../';
 
 @IonicPage()
@@ -23,28 +23,58 @@ export class LoginPage {
   private loginErrorString: string;
 
   constructor(public navCtrl: NavController,
-    public user: User,
+    public user: UserService,
     public toastCtrl: ToastController,
-    public translateService: TranslateService) {
+    public translateService: TranslateService,
+    private auth: AuthService,) {
 
     this.translateService.get('LOGIN_ERROR').subscribe((value) => {
       this.loginErrorString = value;
     })
   }
 
+
+  loginWithGoogle() {
+    this.auth.signInWithGoogle()
+      .then(
+        () => this.navCtrl.setRoot(MainPage),
+        error => {
+          let toast = this.toastCtrl.create({
+            message: error.message,
+            duration: 3000,
+            position: 'bottom'
+          });
+          toast.present();
+        }
+      );
+  }
   // Attempt to login in through our User service
   doLogin() {
-    this.user.login(this.account).subscribe((resp) => {
-      this.navCtrl.push(MainPage);
-    }, (err) => {
-      this.navCtrl.push(MainPage);
-      // Unable to log in
-      let toast = this.toastCtrl.create({
-        message: this.loginErrorString,
-        duration: 3000,
-        position: 'top'
-      });
-      toast.present();
-    });
+    this.auth.signInWithEmail(this.account)
+			.then(
+				() => this.navCtrl.setRoot(MainPage),
+        error => {
+          let toast = this.toastCtrl.create({
+            message: error.message,
+            duration: 3000,
+            position: 'bottom'
+          });
+          toast.present();
+        }
+        
+        // this.loginError = error.message
+			);
+    // this.user.login(this.account).subscribe((resp) => {
+    //   this.navCtrl.push(MainPage);
+    // }, (err) => {
+    //   this.navCtrl.push(MainPage);
+    //   // Unable to log in
+    //   let toast = this.toastCtrl.create({
+    //     message: this.loginErrorString,
+    //     duration: 3000,
+    //     position: 'bottom'
+    //   });
+    //   toast.present();
+    // });
   }
 }

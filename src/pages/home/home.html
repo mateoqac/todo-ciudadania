@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title center>{{ pageTitle }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="tab-wrap">
+
+      <input type="radio" name="tabs" id="tab1" checked>
+      <div class="tab-label-content" id="tab1-content">
+        <label class="tab-label" for="tab1">En Argentina</label>
+        <div class="tab-content">
+          <todo-list [toDo]="_toDoArgentina"></todo-list>
+        </div>
+      </div>
+
+      <input type="radio" name="tabs" id="tab2">
+      <div class="tab-label-content" id="tab2-content">
+        <label class="tab-label" for="tab2">En Italia</label>
+        <div class="tab-content">
+            <todo-list [toDo]="_toDoItaly"></todo-list>
+        </div>
+      </div>
+
+      <div class="slide"></div>
+
+  </div>
+</ion-content>

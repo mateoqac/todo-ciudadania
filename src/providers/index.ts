@@ -1,4 +1,4 @@
 export { Api } from './api/api';
-export { Items } from '../mocks/providers/items';
-export { Settings } from './settings/settings';
-export { User } from './user/user';
+export { SettingsService } from './settings/settings.service';
+export { UserService } from './user/user.service';
+export { AuthService } from './auth/auth.service'

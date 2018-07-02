@@ -8,37 +8,57 @@
 
 
 <ion-content>
-  <form (submit)="doSignup()">
+  <form #form="ngForm" (submit)="doSignUp()">
     <ion-list>
 
       <ion-item>
         <ion-label fixed>{{ 'NAME' | translate }}</ion-label>
-        <ion-input type="text" [(ngModel)]="account.name" name="name"></ion-input>
+        <ion-input
+          type="text"
+          [(ngModel)]="account.name"
+          name="name"
+          placeholder="{{ 'NAME_EXAMPLE' | translate }}"
+          required>
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>{{ 'LAST_NAME' | translate }}</ion-label>
+        <ion-input
+          type="text"
+          [(ngModel)]="account.last_name"
+          name="last_name"
+          placeholder="{{ 'LAST_NAME_EXAMPLE' | translate }}"
+          required>
+        </ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label fixed>{{ 'EMAIL' | translate }}</ion-label>
-        <ion-input type="email" [(ngModel)]="account.email" name="email"></ion-input>
+        <ion-input
+          type="email"
+          [(ngModel)]="account.email"
+          name="email"
+          placeholder="{{ 'EMAIL_EXAMPLE' | translate }}"
+          required>
+        </ion-input>
       </ion-item>
-
-      <!--
-      Want to add a Username? Here you go:
-
-      <ion-item>
-        <ion-label floating>Username</ion-label>
-        <ion-input type="text" [(ngModel)]="account.username" name="username"></ion-input>
-      </ion-item>
-      -->
 
       <ion-item>
         <ion-label fixed>{{ 'PASSWORD' | translate }}</ion-label>
-        <ion-input type="password" [(ngModel)]="account.password" name="password"></ion-input>
+        <ion-input
+          type="password"
+          [(ngModel)]="account.password"
+          name="password"
+          placeholder="{{ 'PASSWORD_EXAMPLE' | translate }}"
+          minlength="6"
+          required>
+        </ion-input>
       </ion-item>
 
       <div padding>
-        <button ion-button color="primary" block>{{ 'SIGNUP_BUTTON' | translate }}</button>
+        <button ion-button color="primary" block [disabled]="!form.valid">{{ 'SIGNUP_BUTTON' | translate }}</button>
       </div>
-
     </ion-list>
   </form>
 </ion-content>

@@ -36,7 +36,10 @@ $colors: (
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here
-
+$checkbox-ios-background-color-on: color($colors, secondary);
+$checkbox-md-icon-background-color-on: color($colors, secondary);
+$checkbox-ios-icon-border-color-on: color($colors, secondary);
+$checkbox-md-icon-border-color-on: color($colors, secondary);
 
 
 

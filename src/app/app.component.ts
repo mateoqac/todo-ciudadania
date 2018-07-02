@@ -5,47 +5,30 @@ import { TranslateService } from '@ngx-translate/core';
 import { Config, Nav, Platform } from 'ionic-angular';
 
 import { FirstRunPage } from '../pages';
-import { Settings } from '../providers';
+import { IndexPage } from '../pages';
+import { MainPage } from '../pages';
+import { TreePage } from '../pages';
+import { UserService } from '../providers';
+import { AuthService } from '../providers';
+
+import { Person } from '../models/person'
 
 @Component({
-  template: `<ion-menu [content]="content">
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Pages</ion-title>
-      </ion-toolbar>
-    </ion-header>
-
-    <ion-content>
-      <ion-list>
-        <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-          {{p.title}}
-        </button>
-      </ion-list>
-    </ion-content>
-
-  </ion-menu>
-  <ion-nav #content [root]="rootPage"></ion-nav>`
+  template: `<ion-nav [root]="rootPage"></ion-nav>`
 })
 export class MyApp {
-  rootPage = FirstRunPage;
+  rootPage:any;
 
   @ViewChild(Nav) nav: Nav;
 
-  pages: any[] = [
-    { title: 'Tutorial', component: 'TutorialPage' },
-    { title: 'Welcome', component: 'WelcomePage' },
-    { title: 'Tabs', component: 'TabsPage' },
-    { title: 'Cards', component: 'CardsPage' },
-    { title: 'Content', component: 'ContentPage' },
-    { title: 'Login', component: 'LoginPage' },
-    { title: 'Signup', component: 'SignupPage' },
-    { title: 'Master Detail', component: 'ListMasterPage' },
-    { title: 'Menu', component: 'MenuPage' },
-    { title: 'Settings', component: 'SettingsPage' },
-    { title: 'Search', component: 'SearchPage' }
-  ]
+  constructor(  private translate: TranslateService,
+                platform: Platform,
+                userSrv: UserService,
+                private config: Config,
+                private auth: AuthService,
+                private statusBar: StatusBar,
+                private splashScreen: SplashScreen) {
 
-  constructor(private translate: TranslateService, platform: Platform, settings: Settings, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -53,6 +36,20 @@ export class MyApp {
       this.splashScreen.hide();
     });
     this.initTranslate();
+    this.initFamilyTree();
+    if(!localStorage.getItem('todo-italia')){
+      this.initItalyTodo();
+    }
+    
+    if(userSrv.currentUser() && userSrv.currentUser().family_tree != undefined ){
+      this.rootPage = MainPage;
+    }
+    else if(userSrv.currentUser() && userSrv.currentUser().family_tree === undefined ){
+      this.rootPage = TreePage;
+    } else{
+      this.rootPage = IndexPage;
+    }
+
   }
 
   initTranslate() {
@@ -81,9 +78,49 @@ export class MyApp {
     });
   }
 
-  openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+  initFamilyTree(){
+    let familyTree:any;
+
+    this.translate.get(['GREAT_GREAT_GREAT_GRANDPARENT',
+    'GREAT_GREAT_GRANDPARENT',
+    'GREAT_GRANDPARENT',
+    'GRANDPARENT',
+    'PARENT',
+    'MYSELF']).subscribe(value =>{
+        let _GGGG = new Person(value['GREAT_GREAT_GREAT_GRANDPARENT']);
+        let _GGG = new Person(value['GREAT_GREAT_GRANDPARENT']);
+        let _GG = new Person(value['GREAT_GRANDPARENT']);
+        let _G = new Person(value['GRANDPARENT']);
+        let _P = new Person(value['PARENT']);
+        let _M = new Person(value['MYSELF']);
+
+        _GGGG.descendant = _GGG
+        _GGG.descendant = _GG
+        _GG.descendant = _G
+        _G.descendant = _P
+        _P.descendant = _M
+
+        familyTree = [_GGGG,_GGG,_GG,_G,_P,_M]
+        localStorage.setItem('family_tree', JSON.stringify(familyTree))
+    })
   }
+
+  initItalyTodo(){
+    let _list = [
+      {'title':'Codice Fiscale', 'checked':false},
+      {'title':'Declaración de presencia', 'checked':false},
+      {'title':'Presentación de carpeta', 'checked':false},
+      {'title':'Registrar residencia', 'checked':false},
+      {'title':'Paso del vigile', 'checked':false},
+      {'title':'Respuesta PECs', 'checked':false},
+      {'title':"Carta d'Identita", 'checked':false},
+      {'title':'Pasaporte', 'checked':false},
+      {'title':'Tessera sanitaria', 'checked':false},
+      {'title':'Inscripción AIRE', 'checked':false},
+      {'title':'Conversion Lic. Conducir', 'checked':false}
+    ]
+
+    localStorage.setItem('todo-italia',JSON.stringify(_list))
+  } 
+
 }

@@ -1,13 +1,14 @@
 {
   "NAME": "Nombre",
+  "LAST_NAME": "Apellido",
   "PASSWORD": "Contraseña",
   "EMAIL": "Email",
   "LOGIN": "Iniciar sesión",
   "SIGNUP": "Registrarse",
 
-  "TAB1_TITLE": "Items",
-  "TAB2_TITLE": "Buscar",
-  "TAB3_TITLE": "Ajustes",
+  "TAB1_TITLE": "Principal",
+  "TAB2_TITLE": "Ajustes",
+  "TAB3_TITLE": "Info",
 
   "MAP_TITLE": "Mapa",
 
@@ -30,11 +31,15 @@
 
   "WELCOME_TITLE": "Bienvenido/a",
 
+  "HOME_TITLE": "Principal",
+  "INFO_TITLE": "Información",
+
   "LOGIN_TITLE": "Iniciar sesión",
   "LOGIN_ERROR": "No se ha podido iniciar sesión. Por favor revisa la información de la cuenta e inténtalo de nuevo.",
   "LOGIN_BUTTON": "Iniciar sesión",
   "SIGNUP_TITLE": "Registro",
   "SIGNUP_ERROR": "No se ha podido crear la cuenta. Por favor revisa la información de la cuenta e inténtalo de nuevo.",
+  "SIGNUP_SUCCESS": "Felicitaciones! Bienvenido {{ value }}!",
   "SIGNUP_BUTTON": "Registrarse",
 
   "LIST_MASTER_TITLE": "Items",
@@ -44,5 +49,21 @@
 
   "CARDS_TITLE": "Social",
 
-  "SEARCH_TITLE": "Buscar"
+  "SEARCH_TITLE": "Buscar",
+
+  "NAME_EXAMPLE": "Tu nombre",
+  "LAST_NAME_EXAMPLE": "Tu apellido",
+  "EMAIL_EXAMPLE": "tu@email.com",
+  "PASSWORD_EXAMPLE": "algunpassword",
+
+
+  "GREAT_GREAT_GREAT_GRANDPARENT": "Transtatarabuelo/a",
+  "GREAT_GREAT_GRANDPARENT": "Tatarabuelo/a",
+  "GREAT_GRANDPARENT": "Bisabuelo/a",
+  "GRANDPARENT": "Abuelo/a",
+  "PARENT": "Padre/Madre",
+  "MYSELF": "Yo mismo",
+
+  "CHOOSE_THE_ITALIAN" : "Seleccione su antepasado Italiano",
+  "GENERATE_BUTTON_TEXT" : "Generar partidas"
 }

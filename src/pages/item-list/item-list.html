@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{item.title}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list>
+      <ion-item-sliding *ngFor="let it of item.items, let i = index">
+        <ion-item  >
+          <ion-label [ngClass]="{'checked' : (it.checked == true)}" >
+            {{it.title}}
+          </ion-label>
+          <ion-checkbox [(ngModel)]="it.checked"></ion-checkbox>
+        </ion-item>
+        <ion-item-options side="right">
+            <button ion-button *ngIf="!it.checked" (click)="delete(i)" icon-left color="danger">
+                <ion-icon name="trash"></ion-icon>
+            </button>
+        </ion-item-options>
+       </ion-item-sliding>
+     </ion-list>  
+</ion-content>
