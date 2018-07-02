@@ -26,7 +26,7 @@ export class LoginPage {
     public user: UserService,
     public toastCtrl: ToastController,
     public translateService: TranslateService,
-    private auth: AuthService,) {
+    private auth: AuthService) {
 
     this.translateService.get('LOGIN_ERROR').subscribe((value) => {
       this.loginErrorString = value;
