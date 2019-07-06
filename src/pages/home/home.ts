@@ -3,10 +3,9 @@ import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { OnInit } from '@angular/core' 
 
-
 import { UserService } from '../../providers/'
-import { User } from '../../models/user';
 import { Certificate } from '../../models/certificate';
+
 
 
 @IonicPage()
@@ -20,7 +19,7 @@ export class HomePage implements OnInit{
   pageTitleKey: string = 'HOME_TITLE';
   pageTitle: string;
 
-  _current_user:User = undefined;
+  _current_user_tree = undefined;
   _toDoItaly:any;
   _toDoArgentina:Certificate[];
 
@@ -29,9 +28,7 @@ export class HomePage implements OnInit{
      public translate: TranslateService,
      public userSrv: UserService,
      public events:Events) 
-     { 
-
-  }
+     { }
 
   ionViewWillLoad() {
     this.page = this.navParams.get('page') || this.page;
@@ -40,18 +37,16 @@ export class HomePage implements OnInit{
     this.translate.get(this.pageTitleKey).subscribe((res) => {
       this.pageTitle = res;
     })
+
+  }
+
+  ionViewWillEnter() {
   }
 
   ngOnInit(){
-    this._current_user = this.userSrv.currentUser();
-    this._toDoArgentina = this.parseToType(this._current_user.family_tree);
+    this._current_user_tree = this.userSrv.currentUserTree();
+    this._toDoArgentina = this.parseToType(this._current_user_tree);
     this._toDoItaly = JSON.parse(localStorage.getItem('todo-italia'));
-    this.events.subscribe('save:todos', (response) =>{
-      console.log("llamado a subs")
-      this._current_user.family_tree = this._toDoArgentina
-      localStorage.setItem('todo-italia',JSON.stringify(this._toDoItaly))
-      this.userSrv.setCurrentUser(this._current_user)
-    })
   }
 
   parseToType(json):Certificate[]{

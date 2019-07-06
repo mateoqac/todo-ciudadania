@@ -4,12 +4,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { Config, Nav, Platform } from 'ionic-angular';
 
-import { FirstRunPage } from '../pages';
-import { IndexPage } from '../pages';
 import { MainPage } from '../pages';
 import { TreePage } from '../pages';
 import { UserService } from '../providers';
-import { AuthService } from '../providers';
 
 import { Person } from '../models/person'
 
@@ -25,7 +22,6 @@ export class MyApp {
                 platform: Platform,
                 userSrv: UserService,
                 private config: Config,
-                private auth: AuthService,
                 private statusBar: StatusBar,
                 private splashScreen: SplashScreen) {
 
@@ -41,37 +37,34 @@ export class MyApp {
       this.initItalyTodo();
     }
     
-    if(userSrv.currentUser() && userSrv.currentUser().family_tree != undefined ){
+    if(userSrv.currentUserTree() != undefined ){
       this.rootPage = MainPage;
     }
-    else if(userSrv.currentUser() && userSrv.currentUser().family_tree === undefined ){
+    else {
       this.rootPage = TreePage;
-    } else{
-      this.rootPage = IndexPage;
-    }
-
+    } 
   }
 
   initTranslate() {
     // Set the default language for translation strings, and the current language.
-    this.translate.setDefaultLang('en');
+    this.translate.setDefaultLang('es');
     const browserLang = this.translate.getBrowserLang();
 
-    if (browserLang) {
-      if (browserLang === 'zh') {
-        const browserCultureLang = this.translate.getBrowserCultureLang();
+    // if (browserLang) {
+    //   if (browserLang === 'zh') {
+    //     const browserCultureLang = this.translate.getBrowserCultureLang();
 
-        if (browserCultureLang.match(/-CN|CHS|Hans/i)) {
-          this.translate.use('zh-cmn-Hans');
-        } else if (browserCultureLang.match(/-TW|CHT|Hant/i)) {
-          this.translate.use('zh-cmn-Hant');
-        }
-      } else {
-        this.translate.use(this.translate.getBrowserLang());
-      }
-    } else {
-      this.translate.use('en'); // Set your language here
-    }
+    //     if (browserCultureLang.match(/-CN|CHS|Hans/i)) {
+    //       this.translate.use('zh-cmn-Hans');
+    //     } else if (browserCultureLang.match(/-TW|CHT|Hant/i)) {
+    //       this.translate.use('zh-cmn-Hant');
+    //     }
+    //   } else {
+    //     this.translate.use(this.translate.getBrowserLang());
+    //   }
+    // } else {
+    //   this.translate.use('en'); // Set your language here
+    // }
 
     this.translate.get(['BACK_BUTTON_TEXT']).subscribe(values => {
       this.config.set('ios', 'backButtonText', values.BACK_BUTTON_TEXT);
@@ -87,12 +80,12 @@ export class MyApp {
     'GRANDPARENT',
     'PARENT',
     'MYSELF']).subscribe(value =>{
-        let _GGGG = new Person(value['GREAT_GREAT_GREAT_GRANDPARENT']);
-        let _GGG = new Person(value['GREAT_GREAT_GRANDPARENT']);
-        let _GG = new Person(value['GREAT_GRANDPARENT']);
-        let _G = new Person(value['GRANDPARENT']);
-        let _P = new Person(value['PARENT']);
-        let _M = new Person(value['MYSELF']);
+        let _GGGG = new Person(value.GREAT_GREAT_GREAT_GRANDPARENT);
+        let _GGG = new Person(value.GREAT_GREAT_GRANDPARENT);
+        let _GG = new Person(value.GREAT_GRANDPARENT);
+        let _G = new Person(value.GRANDPARENT);
+        let _P = new Person(value.PARENT);
+        let _M = new Person(value.MYSELF);
 
         _GGGG.descendant = _GGG
         _GGG.descendant = _GG

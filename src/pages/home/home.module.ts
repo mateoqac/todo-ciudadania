@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 
 import { HomePage } from './home';
 import { TodoListPage } from '../todo-list/todo-list'
+import { createTranslateLoader } from '../../app/app.module';
+import { HttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -12,7 +14,13 @@ import { TodoListPage } from '../todo-list/todo-list'
   ],
   imports: [
     IonicPageModule.forChild(HomePage),
-    TranslateModule.forChild()
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader,
+        deps: [HttpClient]
+      }
+    })
   ],
   exports: [
     HomePage

@@ -17,31 +17,17 @@ export class PopoverPage {
   tree:any;
   descendant:undefined;
 
-  page: string = 'main';
-  pageTitleKey: string = 'CHOOSE_THE_ITALIAN';
-  pageTitle: string;
-  buttonText:string;
-
-
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public translate: TranslateService,
               public loadingCtrl: LoadingController,
               public userSrv: UserService) {
-    this.tree = JSON.parse(localStorage.getItem('family_tree'))
-    this.tree.pop()
   }
 
   ionViewWillLoad() {
-    this.page = this.navParams.get('page') || this.page;
-    this.pageTitleKey = this.navParams.get('pageTitleKey') || this.pageTitleKey;
+    this.tree = JSON.parse(localStorage.getItem('family_tree'))
+    this.tree.pop()
 
-    this.translate.get(this.pageTitleKey).subscribe((res) => {
-      this.pageTitle = res;
-    });
-    this.translate.get('GENERATE_BUTTON_TEXT').subscribe( (res) =>{
-      this.buttonText = res;
-    });
   }
 
   generateFamilyTree(){
@@ -94,7 +80,6 @@ export class PopoverPage {
       }
     }
   }
-
 
   addCNR(list){
     let __= new Certificate();

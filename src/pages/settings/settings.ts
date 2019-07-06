@@ -1,27 +1,13 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-// import { SettingsService } from '../../providers';
-
-/**
- * The Settings page is a simple form that syncs with a Settings provider
- * to enable the user to customize settings for the app.
- *
- */
 @IonicPage()
 @Component({
   selector: 'page-settings',
   templateUrl: 'settings.html'
 })
 export class SettingsPage {
-  // Our local settings object
-  options: any;
-
-  settingsReady = false;
-
-  form: FormGroup;
 
   profileSettings = {
     page: 'profile',
@@ -32,38 +18,38 @@ export class SettingsPage {
   pageTitleKey: string = 'SETTINGS_TITLE';
   pageTitle: string;
 
-  subSettings: any = SettingsPage;
+  esKey: string = "LANGUAGE_SPANISH"
+  esLabel: string; 
+  enKey: string = "LANGUAGE_ENGLISH";
+  enLabel: string;
+  ptKey: string = "LANGUAGE_PORTUGUESE";
+  ptLabel: string;
+
+  languages:any[]
 
   constructor(public navCtrl: NavController,
-    // public settings: SettingsService,
-    public formBuilder: FormBuilder,
     public navParams: NavParams,
     public translate: TranslateService) {
+    this.translate.get([this.esKey, this.enKey, this.ptKey]).subscribe((res) => {
+      this.esLabel = res[this.esKey]
+      this.enLabel = res[this.enKey]
+      this.ptLabel = res[this.ptKey]
+    })
+    this.languages = [
+      {
+        value: 'es',
+        label: this.esLabel
+      },
+      {
+        value: 'en',
+        label: this.enLabel
+      },
+      {
+        value: 'pt-br',
+        label: this.ptLabel
+      }
+    ];
   }
-
-  // _buildForm() {
-  //   let group: any = {
-  //     option1: [this.options.option1],
-  //     option2: [this.options.option2],
-  //     option3: [this.options.option3]
-  //   };
-
-  //   switch (this.page) {
-  //     case 'main':
-  //       break;
-  //     case 'profile':
-  //       group = {
-  //         option4: [this.options.option4]
-  //       };
-  //       break;
-  //   }
-  //   this.form = this.formBuilder.group(group);
-
-  //   // Watch the form for changes, and
-  //   this.form.valueChanges.subscribe((v) => {
-  //     this.settings.merge(this.form.value);
-  //   });
-  // }
 
   ionViewWillEnter() {
     this.page = this.navParams.get('page') || this.page;
@@ -74,7 +60,9 @@ export class SettingsPage {
     })
   }
 
-  ngOnChanges() {
-    console.log('Ng All Changes');
+  choose(lang) {
+    this.translate.use(lang);
+    console.log(lang)
   }
+
 }

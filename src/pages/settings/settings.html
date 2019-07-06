@@ -1,11 +1,18 @@
 <ion-header>
-
   <ion-navbar>
     <ion-title>{{ pageTitle }}</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 <ion-content>
-
+  <ion-list >
+    <ion-item  >
+      <ion-label>{{'CHOOSE_LANGUAGE' | translate }}:</ion-label>
+      <ion-select (ionChange)="choose($event)">
+        <ion-option *ngFor="let item of languages" [value]="item.value">
+          {{ item.label }}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
 </ion-content>

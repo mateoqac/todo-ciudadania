@@ -1,17 +1,17 @@
-<ion-list>
-    <ion-item-sliding *ngFor="let item of toDo, let i = index" >
-      <ion-item>
-        <ion-label [ngClass]="{'checked' : (item.checked == true)}" >
-          {{item.title}}
-        </ion-label>
-        <ion-checkbox *ngIf="item.items" #check (ionChange)="changing($event,item)" (click)="myFunction(item,$event)"></ion-checkbox>
-        <ion-checkbox *ngIf="!item.items"[(ngModel)]="item.checked" ></ion-checkbox>
-      </ion-item>
-      <ion-item-options side="right">
-          <button ion-button *ngIf="!item.checked" (click)="delete(i)" icon-left color="danger">
-              <ion-icon name="trash"></ion-icon>
-          </button>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>  
+<ion-list nopadding>
+  <ion-item-sliding *ngFor="let item of toDo, let i = index" >
+    <ion-item>
+      <ion-label [ngClass]="{'checked' : (item.checked == true)}" >
+        {{item.title}}
+      </ion-label>
+      <ion-checkbox *ngIf="item.items" #check (ionChange)="changing($event,item)" (click)="myFunction(item,$event)"></ion-checkbox>
+      <ion-checkbox *ngIf="!item.items"[(ngModel)]="item.checked" ></ion-checkbox>
+    </ion-item>
+    <ion-item-options side="right">
+        <button ion-button *ngIf="!item.checked" (click)="delete(i)" icon-left color="danger">
+            <ion-icon name="trash"></ion-icon>
+        </button>
+    </ion-item-options>
+  </ion-item-sliding>
+</ion-list>  
   

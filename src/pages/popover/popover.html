@@ -8,7 +8,8 @@
 
   <ion-navbar>
     <ion-title>
-        {{ pageTitle }}
+        <!-- {{ pageTitle }} -->
+        {{ 'CHOOSE_THE_ITALIAN' | translate}}
     </ion-title>
   </ion-navbar>
 
@@ -23,6 +24,7 @@
   </ion-list>
 
   <button type="button" ion-button block name="button"  [disabled]="descendant == undefined" (click)="generateFamilyTree()">
-    {{ buttonText}}
+    <!-- {{ buttonText}} -->
+    {{ 'GENERATE_BUTTON_TEXT' | translate }}
   </button>
 </ion-content>
